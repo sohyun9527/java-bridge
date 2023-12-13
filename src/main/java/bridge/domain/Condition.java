@@ -22,4 +22,5 @@ public enum Condition {
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("[ERROR] 재시작은 R, 종료는 Q입니다."));
     }
+
 }

@@ -1,6 +1,6 @@
 package bridge;
 
-import bridge.domain.MoveCommand;
+import bridge.domain.Move;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +23,7 @@ public class BridgeMaker {
         List<String> result = new ArrayList<>();
         for (int i = 0; i < size; i++) {
             int randomNumber = randomNumberGenerate();
-            String command = MoveCommand.findByNumber(randomNumber);
+            String command = Move.findByNumber(randomNumber);
             result.add(command);
         }
         return result;
