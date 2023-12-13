@@ -12,6 +12,7 @@ public class Bridge {
     public boolean isAllClear(Player player) {
         List<Move> playerMoves = player.getMoves();
         if (isValidMoves(playerMoves) && isEndOfBridge(playerMoves.size())) {
+            player.clearGame();
             return true;
         }
         return false;
