@@ -26,31 +26,55 @@ public class BridgeController {
         Bridge bridge = generateBridge();
         Player player = new Player();
         BridgeGame bridgeGame = new BridgeGame(bridge, player);
-        gameStart(bridgeGame, player);
+        startGame(bridgeGame, player);
     }
 
-    private void gameStart(BridgeGame bridgeGame, Player player) {
-        while (true) {
-            Move move = Move.of(inputView.readMoving());
-            if (bridgeGame.move(move)) { // 최종 결과
-                outputView.printMap(player.getMoves(), player.isClear());
-                return;
-            }
-            if (!bridgeGame.isValidMove()) { // 틀렸다 -> 재시작 여부 묻기
-                Condition condition = Condition.of(inputView.readGameCommand());
-                if (condition.getCommand().equals("Q")) {
-                    outputView.printResult(player);
-                    return;
+
+    private void startGame(BridgeGame bridgeGame, Player player) {
+
+        ReadUntilValid.readUntilValid(() -> {
+            boolean isGameRunning = true;
+            while (isGameRunning) {
+                Move move = inputView.readMoving();
+                if (makeMoveAndCheckResult(bridgeGame, player, move)) {
+                    isGameRunning = false;
                 }
-                player.resetMoves();
+                if (!bridgeGame.isValidMove()) {
+                    isGameRunning = !handleInvalidMove(player);
+                }
             }
+        });
+    }
+
+    private boolean makeMoveAndCheckResult(BridgeGame bridgeGame, Player player, Move move) {
+        if (bridgeGame.move(move)) { // allClear
+            outputView.printMap(player.getMoves(), player.isClear());
+            return true;
         }
+        outputView.printMap(player.getMoves(), player.isClear());
+        return false;
+    }
+
+    private boolean handleInvalidMove(Player player) {
+        ReadUntilValid.readUntilValidInput(() -> {
+            Condition condition = inputView.readGameCommand();
+            if (condition == Condition.QUIT) {
+                outputView.printResult(player);
+                return false;
+            }
+            player.resetMoves();
+            return true;
+        });
+        return true;
     }
 
     private Bridge generateBridge() {
         return ReadUntilValid.readUntilValidInput(() -> {
             int bridgeSize = inputView.readBridgeSize();
             List<String> answer = bridgeMaker.makeBridge(bridgeSize);
+            for (String s : answer) {
+                System.out.printf("%s", s);
+            }
             return new Bridge(answer);
         });
     }
