@@ -14,7 +14,7 @@ public class ReadUntilValid {
         }
     }
 
-    private static void readUntilValid(Runnable inputFunction) {
+    public static void readUntilValid(Runnable inputFunction) {
         while (true) {
             try {
                 inputFunction.run();
