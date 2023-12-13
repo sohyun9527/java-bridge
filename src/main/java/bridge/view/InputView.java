@@ -1,5 +1,6 @@
 package bridge.view;
 
+import bridge.domain.Condition;
 import bridge.domain.Move;
 import bridge.validation.InputValidation;
 import camp.nextstep.edu.missionutils.Console;
@@ -22,12 +23,6 @@ public class InputView {
         return Integer.parseInt(input);
     }
 
-    public Move readMoveCommand() {
-        System.out.println(REQUEST_MOVE);
-        String input = getUserInput();
-        return Move.of(input);
-    }
-
     private String getUserInput() {
         return Console.readLine();
     }
@@ -35,14 +30,18 @@ public class InputView {
     /**
      * 사용자가 이동할 칸을 입력받는다.
      */
-    public String readMoving() {
-        return null;
+    public Move readMoving() {
+        System.out.println(REQUEST_MOVE);
+        String input = getUserInput();
+        return Move.of(input);
     }
 
     /**
      * 사용자가 게임을 다시 시도할지 종료할지 여부를 입력받는다.
      */
-    public String readGameCommand() {
-        return null;
+    public Condition readGameCommand() {
+        System.out.println(REQUEST_COMMAND);
+        String input = getUserInput();
+        return Condition.of(input);
     }
 }
