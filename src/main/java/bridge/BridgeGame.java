@@ -28,6 +28,10 @@ public class BridgeGame {
         return bridge.isAllClear(player);
     }
 
+    public boolean isValidMove() {
+        return bridge.isValidMoves(player.getMoves());
+    }
+
     /**
      * 사용자가 게임을 다시 시도할 때 사용하는 메서드
      * <p>
@@ -35,7 +39,7 @@ public class BridgeGame {
      */
     public boolean retry(Condition condition) {
         if (condition == Condition.RETRY) {
-            player.restartGame();
+            player.resetMoves();
             return true;
         }
         return false;
